@@ -30,6 +30,8 @@
     "@storybook/addon-knobs": "^5.0.11",
     "@storybook/addon-options": "^5.0.11",
     "@storybook/react": "^5.0.11",
+    "@storybook/storybook-deployer": "^2.8.1",
+    "babel-loader": "^8.0.5",
     "css-loader": "^2.1.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
@@ -90,8 +92,5 @@
     "gitUsername": "salinn",
     "gitEmail": "pmd6624@rit.edu",
     "commitMessage": "Deploy Storybook [skip ci]"
-  },
-  "dependencies": {
-    "babel-loader": "^8.0.5"
   }
 }
