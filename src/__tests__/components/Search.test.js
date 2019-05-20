@@ -24,6 +24,12 @@ describe('Search', () => {
         expect(inputs.length).toBe(1);
     });
 
+    it('should have a search icon', () => {
+      const icons = wrapper.find('.search-icon');
+
+      expect(icons.length).toBe(1);
+    });
+
     it('should have a clear button', () => {
         const buttons = wrapper.find('button');
 
