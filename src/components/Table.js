@@ -62,6 +62,8 @@ export class Table extends Component {
             icons,
             id,
             theme,
+            showSearchIcon: true,
+            showClearIcon: false,
         };
 
         this.resizeTable = this.resizeTable.bind(this);
@@ -144,15 +146,33 @@ export class Table extends Component {
     }
 
     searchRows({ target: { value }}) {
+        this.toggleSearchInputIcons(value);
+        
         this.setState((currentState, currentProps) => {
             return searchRows({ searchString: value, state: currentState, initialRows: cloneDeep(currentProps.rows) })
         });
     }
 
     clearSearch() {
+        this.toggleSearchInputIcons();
+
         this.setState((currentState, currentProps) => {
             return clearSearch({ state: currentState, initialRows: cloneDeep(currentProps.rows) })
         });
+    }
+
+    toggleSearchInputIcons(value) {
+      if (value) {
+          this.setState({
+              showSearchIcon: false,
+              showClearIcon: true,
+          });
+      } else {
+          this.setState({
+              showSearchIcon: true,
+              showClearIcon: false,
+          });
+      }
     }
 
     render(){
@@ -187,7 +207,9 @@ export class Table extends Component {
 
         const SearchComponent = showSearch && <Search searchString={ this.state.searchString }
                                                       searchRows={ this.searchRows }
-                                                      clearSearch={ this.clearSearch } />;
+                                                      clearSearch={ this.clearSearch }
+                                                      showSearchIcon={ this.state.showSearchIcon }
+                                                      showClearIcon={ this.state.showClearIcon } />;
 
         return (
             <div className={theme}>

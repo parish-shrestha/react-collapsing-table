@@ -25,18 +25,45 @@ describe('Search', () => {
     });
 
     it('should have a search icon', () => {
-      const icons = wrapper.find('.search-icon');
+        props = { ...props, showSearchIcon: true };
+        wrapper = shallow(<Search { ...props }/>);
 
-      expect(icons.length).toBe(1);
+        const searchIcon = wrapper.find('.search-icon');
+
+        expect(searchIcon.length).toBe(1);
+    });
+
+    it('should not have a search icon', () => {
+        props = { ...props, showSearchIcon: false };
+        wrapper = shallow(<Search { ...props }/>);
+
+        const searchIcon = wrapper.find('.search-icon');
+
+        expect(searchIcon.length).toBe(0);
     });
 
     it('should have a clear button', () => {
-        const buttons = wrapper.find('button');
+        props = { ...props, showClearIcon: true };
+        wrapper = shallow(<Search { ...props }/>);
 
-        expect(buttons.length).toBe(1);
+        const clearIcon = wrapper.find('button');
+
+        expect(clearIcon.length).toBe(1);
     });
 
+    it('should not have a clear button', () => {
+        props = { ...props, showClearIcon: false };
+        wrapper = shallow(<Search { ...props }/>);
+
+        const clearIcon = wrapper.find('button');
+
+        expect(clearIcon.length).toBe(0);
+  });
+
     it('should call the clear search field action', () => {
+        props = { ...props, showClearIcon: true };
+        wrapper = shallow(<Search { ...props }/>);
+        
         wrapper.find('button').first().simulate('click');
 
         expect(props.clearSearch).toHaveBeenCalled();
