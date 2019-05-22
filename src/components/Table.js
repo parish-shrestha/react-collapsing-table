@@ -8,7 +8,7 @@ import Rows from './Rows';
 import Pagination from './Pagination';
 import { calculateRows, sortColumn, nextPage, previousPage, goToPage, expandRow, setInputtedPage } from '../actions/TableActions'
 import { resizeTable } from '../actions/ResizeTableActions'
-import { searchRows, clearSearch } from '../actions/SearchActions';
+import { searchRows, clearSearch, toggleSearchInputIcons } from '../actions/SearchActions';
 import throttle from 'lodash.throttle';
 import cloneDeep from 'lodash.clonedeep';
 
@@ -35,7 +35,9 @@ export class Table extends Component {
             CustomPagination = null,
             icons = null,
             id = null,
-            theme = 'react-collapsible-theme'
+            theme = 'react-collapsible-theme',
+            showSearchIcon = true,
+            showClearIcon = false,
         } = props;
 
         this.state = {
@@ -62,8 +64,8 @@ export class Table extends Component {
             icons,
             id,
             theme,
-            showSearchIcon: true,
-            showClearIcon: false,
+            showSearchIcon,
+            showClearIcon,
         };
 
         this.resizeTable = this.resizeTable.bind(this);
@@ -162,17 +164,9 @@ export class Table extends Component {
     }
 
     toggleSearchInputIcons(value) {
-      if (value) {
-          this.setState({
-              showSearchIcon: false,
-              showClearIcon: true,
-          });
-      } else {
-          this.setState({
-              showSearchIcon: true,
-              showClearIcon: false,
-          });
-      }
+        this.setState((currentState) => {
+            return toggleSearchInputIcons({ searchString: value, state: currentState })
+        });
     }
 
     render(){

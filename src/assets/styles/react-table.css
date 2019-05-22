@@ -69,15 +69,12 @@
 }
 
 .react-collapsible-theme .react-collapsible-search .react-collapsible-clear {
-    color: #009cde;
     border: 0;
-    background-color: #fff;
-    font-size: 1.4rem;
-    margin-left: .8rem;
+    background-color: transparent;
     position: absolute;
     right: 0;
     top: 0;
-    padding: 1px 0 2px;
+    padding: 0;
 }
 
 .react-collapsible-theme .react-collapsible-search input {

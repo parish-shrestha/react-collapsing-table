@@ -280,10 +280,10 @@ describe('Table', () => {
     });
 
     it('should show clear icon when the input field is not empty', () => {
-      const searchValue = "paul";
+        const searchValue = "paul";
 
-      instance.toggleSearchInputIcons(searchValue);
-      expect(wrapper.state().showSearchIcon).toBe(false);
-      expect(wrapper.state().showClearIcon).toBe(true);
-  });
+        instance.toggleSearchInputIcons(searchValue);
+        expect(wrapper.state().showSearchIcon).toBe(false);
+        expect(wrapper.state().showClearIcon).toBe(true);
+    });
 });
