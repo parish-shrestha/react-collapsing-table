@@ -30,7 +30,7 @@ const Rows = ({ rows, visibleColumns, hiddenColumns, expandRow, callbacks, icons
     } else {
         return (
             <tbody>
-                <tr>
+                <tr className="no-results">
                     <td>Sorry, your search did not return any results. Please try again.</td>
                 </tr>
             </tbody>
