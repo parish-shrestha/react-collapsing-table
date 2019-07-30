@@ -7,6 +7,7 @@
     "react": "^15.x.x || ^16.x.x"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "react": "^16.8.6"
   },
   "scripts": {
@@ -21,16 +22,17 @@
   },
   "author": "Paul Darragh <pmd6624@rit.edu>",
   "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-object-assign": "^7.0.0",
+    "@babel/plugin-transform-react-jsx": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
     "@storybook/addon-knobs": "^3.4.12",
     "@storybook/addon-options": "^3.4.12",
     "@storybook/react": "^5.1.9",
     "@storybook/storybook-deployer": "^2.0.0",
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
-    "babel-plugin-transform-es2015-spread": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.5.1",
     "css-loader": "^3.1.0",
     "enzyme": "^3.10.0",
