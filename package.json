@@ -1,14 +1,10 @@
 {
   "name": "react-collapsing-table",
-  "version": "0.6.1",
+  "version": "1.0.0",
   "description": "react-collapsing-table: a React rewrite of the jQuery table plugin from 'datatables.net'. Inspired by a lack of similar table behaviors, notably collapsibility and responsivity.",
   "main": "build/index.js",
   "peerDependencies": {
-    "react": "^15.x.x || ^16.x.x"
-  },
-  "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "react": "^16.8.6"
+    "react": "^16.x.x"
   },
   "scripts": {
     "test": "jest --watch --env=jsdom",
@@ -22,22 +18,23 @@
   },
   "author": "Paul Darragh <pmd6624@rit.edu>",
   "devDependencies": {
-    "@babel/core": "^7.1.6",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/plugin-transform-object-assign": "^7.0.0",
-    "@babel/plugin-transform-react-jsx": "^7.1.6",
-    "@babel/preset-env": "^7.1.6",
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
-    "@storybook/addon-knobs": "^3.4.12",
-    "@storybook/addon-options": "^3.4.12",
-    "@storybook/react": "^5.1.9",
-    "@storybook/storybook-deployer": "^2.0.0",
-    "babel-loader": "^7.0.0",
-    "babel-preset-env": "^1.5.1",
-    "css-loader": "^3.1.0",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
-    "extract-text-webpack-plugin": "^3.0.2",
+    "@storybook/addon-a11y": "^5.0.11",
+    "@storybook/addon-jest": "^5.0.11",
+    "@storybook/addon-knobs": "^5.0.11",
+    "@storybook/addon-options": "^5.0.11",
+    "@storybook/react": "^5.0.11",
+    "@storybook/storybook-deployer": "^2.8.1",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.12.1",
+    "extract-text-webpack-plugin": "^4.0.0-alpha.0",
     "faker": "^4.1.0",
     "jest": "^24.8.0",
     "lodash.clonedeep": "^4.5.0",
@@ -45,10 +42,10 @@
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react-dom": "^16.8.6",
-    "react-icons": "^2.2.7",
-    "style-loader": "^0.19.0",
-    "webpack": "^3.4.1",
-    "webpack-babel-jest": "^1.0.4"
+    "react-icons": "^3.6.1",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2"
   },
   "jest": {
     "setupFiles": [

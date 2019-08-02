@@ -1,8 +1,7 @@
 import React from 'react';
 import '../src/assets/styles/global.css';
-
 import { storiesOf } from '@storybook/react';
-import { boolean, withKnobs } from '@storybook/addon-knobs';
+import { withA11y } from '@storybook/addon-a11y';
 
 import ReactCollapsingTable from '../src/index';
 import {
@@ -19,10 +18,12 @@ import {
     unsorted,
 } from './props';
 
-
 storiesOf('React Collapsing Table', module)
-    .addDecorator(withKnobs)
-    .add('Basic Table', () => <ReactCollapsingTable {...basicTableProps} />)
+    .addDecorator(withA11y)
+    .add(
+        'Basic Table', 
+        () => <ReactCollapsingTable {...basicTableProps} />, 
+        { jest: ['Table.test.js',],})
     .add('Turn Pagination and Search On', () => <ReactCollapsingTable {...basicTablePropsPaginationAndSearchShow } />)
     .add('Set Column and Direction displayed on load', () => <ReactCollapsingTable {...sortColumnAndDirectionProps} />)
     .add('Set the total rows displayed', () => <ReactCollapsingTable {...rowSizeProps} />)
