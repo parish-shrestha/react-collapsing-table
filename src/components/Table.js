@@ -8,7 +8,7 @@ import Rows from './Rows';
 import Pagination from './Pagination';
 import { calculateRows, sortColumn, nextPage, previousPage, goToPage, expandRow, setInputtedPage } from '../actions/TableActions'
 import { resizeTable } from '../actions/ResizeTableActions'
-import { searchRows, clearSearch } from '../actions/SearchActions';
+import { searchRows, clearSearch, toggleSearchInputIcons } from '../actions/SearchActions';
 import throttle from 'lodash.throttle';
 import cloneDeep from 'lodash.clonedeep';
 
@@ -35,7 +35,9 @@ export class Table extends Component {
             CustomPagination = null,
             icons = null,
             id = null,
-            theme = 'react-collapsible-theme'
+            theme = 'react-collapsible-theme',
+            showSearchIcon = true,
+            showClearIcon = false,
         } = props;
 
         this.state = {
@@ -62,6 +64,8 @@ export class Table extends Component {
             icons,
             id,
             theme,
+            showSearchIcon,
+            showClearIcon,
         };
 
         this.resizeTable = this.resizeTable.bind(this);
@@ -144,14 +148,24 @@ export class Table extends Component {
     }
 
     searchRows({ target: { value }}) {
+        this.toggleSearchInputIcons(value);
+        
         this.setState((currentState, currentProps) => {
             return searchRows({ searchString: value, state: currentState, initialRows: cloneDeep(currentProps.rows) })
         });
     }
 
     clearSearch() {
+        this.toggleSearchInputIcons();
+
         this.setState((currentState, currentProps) => {
             return clearSearch({ state: currentState, initialRows: cloneDeep(currentProps.rows) })
+        });
+    }
+
+    toggleSearchInputIcons(value) {
+        this.setState((currentState) => {
+            return toggleSearchInputIcons({ searchString: value, state: currentState })
         });
     }
 
@@ -187,7 +201,9 @@ export class Table extends Component {
 
         const SearchComponent = showSearch && <Search searchString={ this.state.searchString }
                                                       searchRows={ this.searchRows }
-                                                      clearSearch={ this.clearSearch } />;
+                                                      clearSearch={ this.clearSearch }
+                                                      showSearchIcon={ this.state.showSearchIcon }
+                                                      showClearIcon={ this.state.showClearIcon } />;
 
         return (
             <div className={theme}>

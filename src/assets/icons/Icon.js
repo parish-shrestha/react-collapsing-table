@@ -1,8 +1,9 @@
 //React
 import React from 'react';
 //Imported Icons
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp, MdSearch } from 'react-icons/md';
 import { FaCaretUp, FaCaretDown, FaChevronLeft, FaChevronRight} from 'react-icons/fa';
+import { TiDeleteOutline } from 'react-icons/ti'
 
 export const getIcon = ({ onClick, name='', size=16 }) => {
     switch (name) {
@@ -18,6 +19,10 @@ export const getIcon = ({ onClick, name='', size=16 }) => {
             return <span className="arrow-left"><FaChevronLeft onClick={ onClick } size={ size } className="brand-primary-light" /></span>;
         case 'rightChevron':
             return <span className="arrow-right"><FaChevronRight onClick={ onClick } size={ size } className="brand-primary-light" /></span>;
+        case 'search':
+            return <span className="search-icon"><MdSearch size={ size } className="brand-primary-light" /></span>;
+        case 'clear':
+            return <span className="clear-icon"><TiDeleteOutline size={ size } className="brand-primary-light" /></span>;   
         default:
             return <span />;
     }
