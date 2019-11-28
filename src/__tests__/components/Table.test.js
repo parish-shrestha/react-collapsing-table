@@ -306,6 +306,7 @@ describe('Table', () => {
                 pagination = {
                     currentPage: 1,
                     totalPages: 2,
+                    isServerPagination: true
                 }
                 wrapper.setState({ pagination });
                 instance.nextPage();
@@ -318,6 +319,7 @@ describe('Table', () => {
                 pagination = {
                     totalPages: 2,
                     currentPage: 2,
+                    isServerPagination: true
                 }
                 wrapper.setState({ pagination });
                 instance.nextPage();
@@ -331,6 +333,7 @@ describe('Table', () => {
                 pagination = {
                     currentPage: 2,
                     totalPages: 4,
+                    isServerPagination: true
                 }
                 wrapper.setState({ pagination });
                 instance.previousPage();
@@ -343,6 +346,7 @@ describe('Table', () => {
                 pagination = {
                     totalPages: 1,
                     currentPage: 1,
+                    isServerPagination: true
                 }
                 wrapper.setState({ pagination });
                 instance.previousPage();
