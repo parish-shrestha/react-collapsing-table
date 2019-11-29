@@ -288,8 +288,7 @@ describe('Table', () => {
     });
 
     describe('when server pagination is used', () => {
-        let updateDataSpy;
-        let pagination = {};
+        let updateDataSpy, pagination = {}, sort = {};
 
         beforeEach(() => {
             updateDataSpy = jest.fn();
@@ -308,11 +307,15 @@ describe('Table', () => {
                     totalPages: 2,
                     isServerPagination: true
                 }
+                sort = {
+                    column: 'lastName',
+                    direction: 'ascending'
+                }
                 wrapper.setState({ pagination });
                 instance.nextPage();
 
                 expect(updateDataSpy).toHaveBeenCalledTimes(1);
-                expect(updateDataSpy).toHaveBeenCalledWith({page: pagination.currentPage + 1});
+                expect(updateDataSpy).toHaveBeenCalledWith({ page: pagination.currentPage + 1, sort });
             });
 
             it('should not call updateData if currentPage >= totalPages', () => {
@@ -335,11 +338,15 @@ describe('Table', () => {
                     totalPages: 4,
                     isServerPagination: true
                 }
+                sort = {
+                    column: 'lastName',
+                    direction: 'ascending'
+                }
                 wrapper.setState({ pagination });
                 instance.previousPage();
 
                 expect(updateDataSpy).toHaveBeenCalledTimes(1);
-                expect(updateDataSpy).toHaveBeenCalledWith({page: pagination.currentPage - 1});
+                expect(updateDataSpy).toHaveBeenCalledWith({ page: pagination.currentPage - 1, sort });
             });
 
             it('should not call updateData if currentPage <= 1', () => {
@@ -391,6 +398,54 @@ describe('Table', () => {
             instance = wrapper.instance();
 
             expect(wrapper.state().rows.length).toBe(rows.length);
+        });
+    });
+
+    describe('when server side sorting is used', () => {
+        let updateDataSpy, pagination = {}, sort = {};
+
+        beforeEach(() => {
+            updateDataSpy = jest.fn();
+            props = {
+                ...props,
+                updateData: updateDataSpy
+            };
+            wrapper = mount(<Table {...props} />)
+            instance = wrapper.instance();
+        });
+
+        describe('sortRows()', () => {
+            it('should call updateData with the current sort column but the direction reversed', () => {
+                pagination = {
+                    currentPage: 1,
+                    totalPages: 2,
+                }
+                sort = {
+                    column: 'firstName',
+                    direction: 'ascending'
+                }
+                wrapper.setState({ pagination, sort });
+                instance.sortRows({ column: 'firstName' });
+
+                expect(updateDataSpy).toHaveBeenCalledTimes(1);
+                expect(updateDataSpy).toHaveBeenCalledWith({page: pagination.currentPage, sort: {...sort, direction: 'descending'}});
+            });
+
+            it('should call updateData with new sort column and the default ascending direction', () => {
+                pagination = {
+                    currentPage: 1,
+                    totalPages: 2,
+                }
+                sort = {
+                    column: 'firstName',
+                    direction: 'ascending'
+                }
+                wrapper.setState({ pagination, sort });
+                instance.sortRows({ column: 'lastName' });
+
+                expect(updateDataSpy).toHaveBeenCalledTimes(1);
+                expect(updateDataSpy).toHaveBeenCalledWith({page: pagination.currentPage, sort: {column: 'lastName', direction: 'ascending'}});
+            });
         });
     });
 });
