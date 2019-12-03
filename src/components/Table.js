@@ -31,7 +31,7 @@ export class Table extends Component {
             showSearch = false,
             showPagination = false,
             paginationEventListener = null,
-            totalPages = (rows.length === 0) ? 1 : Math.ceil(rows.length / rowSize),
+            totalPages = null,
             CustomPagination = null,
             icons = null,
             id = null,
@@ -50,7 +50,8 @@ export class Table extends Component {
                 rowSize,
                 currentPage,
                 inputtedPage: currentPage,
-                totalPages,
+                totalPages: totalPages || ((rows.length === 0) ? 1 : Math.ceil(rows.length / rowSize)),
+                isServerPagination: totalPages != null
             },
             sort: {
                 column,
@@ -86,7 +87,7 @@ export class Table extends Component {
         this.resizeTable();
     }
 
-    componentWillReceiveProps({ rows, columns }){
+    componentWillReceiveProps({ rows, columns, currentPage, totalPages }){
         this.setState(currentState => {
             return {
                 ...currentState,
@@ -97,8 +98,9 @@ export class Table extends Component {
                 }),
                 pagination: {
                     ...currentState.pagination,
-                    currentPage: 1,
-                    totalPages: (rows.length === 0) ? 1 : Math.ceil(rows.length / currentState.pagination.rowSize)
+                    currentPage: currentPage || 1,
+                    totalPages: totalPages || ((rows.length === 0) ? 1 : Math.ceil(rows.length / currentState.pagination.rowSize)),
+                    isServerPagination: totalPages != null
                 }
             }
         })
@@ -121,15 +123,28 @@ export class Table extends Component {
     }
 
     nextPage() {
-        this.setState(currentState => {
-            return nextPage({ state: currentState })
-        });
+        if (!this.props.updateData) {
+            this.setState(currentState => {
+                return nextPage({ state: currentState })
+            });
+            return
+        }
+
+        const { currentPage, totalPages } = this.state.pagination;
+        if (currentPage < totalPages) this.props.updateData({page: currentPage + 1});
+
     };
 
     previousPage() {
-        this.setState(currentState => {
-            return previousPage({ state: currentState })
-        });
+        if (!this.props.updateData) {
+            this.setState(currentState => {
+                return previousPage({ state: currentState })
+            });
+            return
+        }
+
+        const { currentPage } = this.state.pagination;
+        if (currentPage > 1) this.props.updateData({page: currentPage - 1});
     };
 
     goToPage({ newPage, charCode, target }) {
@@ -172,7 +187,7 @@ export class Table extends Component {
     render(){
         const {
             columns,
-            pagination: { currentPage, totalPages, inputtedPage },
+            pagination: { currentPage, totalPages, inputtedPage, isServerPagination },
             callbacks,
             showSearch,
             showPagination,
@@ -180,8 +195,9 @@ export class Table extends Component {
             icons,
             id,
             theme,
+            rows
         } = this.state;
-        const displayedRows = calculateRows({ state: this.state });
+        const displayedRows = isServerPagination ? rows : calculateRows({ state: this.state })
         const visibleColumns = Object.assign([], columns.filter(column => column.isVisible));
         const hiddenColumns = Object.assign([], columns.filter(column => !column.isVisible));
 
