@@ -388,4 +388,44 @@ describe('Icon', () => {
 
         expect(props.onClick).toHaveBeenCalled;
     });
+
+    it('should be able to call the handleKeyDown function for "Enter" key', () => {
+        props = {
+            cellIndex: 0,
+            rowIndex: 1,
+            hiddenColumnsLength: 2,
+            row: {
+                isOpen: false,
+                anotherField: "Test"
+            },
+            expandRow: jest.fn(),
+            icons: {
+                openRow: <span className="open" />,
+                closeRow: <span className="close" />,
+            }
+        };
+        wrapper = shallow(actions.expandIcon(props));
+        wrapper.first("span").simulate("keyDown", { key: "Enter" });
+        expect(props.expandRow).toHaveBeenCalledWith({ rowIndex: props.rowIndex })
+    });
+
+    it('should not call the handleKeyDown function for any other key', () => {
+        props = {
+            cellIndex: 0,
+            rowIndex: 1,
+            hiddenColumnsLength: 2,
+            row: {
+                isOpen: false,
+                anotherField: "Test"
+            },
+            expandRow: jest.fn(),
+            icons: {
+                openRow: <span className="open" />,
+                closeRow: <span className="close" />,
+            }
+        };
+        wrapper = shallow(actions.expandIcon(props));
+        wrapper.first("span").simulate("keyDown", { key: "ArrowDown" });
+        expect(props.expandRow).not.toHaveBeenCalledWith({ rowIndex: props.rowIndex })
+    });
 });
