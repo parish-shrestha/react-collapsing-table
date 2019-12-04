@@ -426,6 +426,6 @@ describe('Icon', () => {
         };
         wrapper = shallow(actions.expandIcon(props));
         wrapper.first("span").simulate("keyDown", { key: "ArrowDown" });
-        expect(props.expandRow).not.toHaveBeenCalledWith({ rowIndex: props.rowIndex })
+        expect(props.expandRow.mock.calls).toEqual([]);
     });
 });
