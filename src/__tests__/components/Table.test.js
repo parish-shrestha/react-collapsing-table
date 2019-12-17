@@ -286,4 +286,166 @@ describe('Table', () => {
         expect(wrapper.state().showSearchIcon).toBe(false);
         expect(wrapper.state().showClearIcon).toBe(true);
     });
+
+    describe('when server pagination is used', () => {
+        let updateDataSpy, pagination = {}, sort = {};
+
+        beforeEach(() => {
+            updateDataSpy = jest.fn();
+            props = {
+                ...props,
+                updateData: updateDataSpy,
+            };
+            wrapper = mount(<Table { ...props } />);
+            instance = wrapper.instance();
+        });
+
+        describe('nextPage()', () => {
+            it('should call updateData with correct page when currentPage < totalPages', () => {
+                pagination = {
+                    currentPage: 1,
+                    totalPages: 2,
+                    isServerPagination: true
+                }
+                sort = {
+                    column: 'lastName',
+                    direction: 'ascending'
+                }
+                wrapper.setState({ pagination });
+                instance.nextPage();
+
+                expect(updateDataSpy).toHaveBeenCalledTimes(1);
+                expect(updateDataSpy).toHaveBeenCalledWith({ page: pagination.currentPage + 1, sort });
+            });
+
+            it('should not call updateData if currentPage >= totalPages', () => {
+                pagination = {
+                    totalPages: 2,
+                    currentPage: 2,
+                    isServerPagination: true
+                }
+                wrapper.setState({ pagination });
+                instance.nextPage();
+
+                expect(updateDataSpy).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('previousPage()', () => {
+            it('should call updateData with correct page when currentPage > 1', () => {
+                pagination = {
+                    currentPage: 2,
+                    totalPages: 4,
+                    isServerPagination: true
+                }
+                sort = {
+                    column: 'lastName',
+                    direction: 'ascending'
+                }
+                wrapper.setState({ pagination });
+                instance.previousPage();
+
+                expect(updateDataSpy).toHaveBeenCalledTimes(1);
+                expect(updateDataSpy).toHaveBeenCalledWith({ page: pagination.currentPage - 1, sort });
+            });
+
+            it('should not call updateData if currentPage <= 1', () => {
+                pagination = {
+                    totalPages: 1,
+                    currentPage: 1,
+                    isServerPagination: true
+                }
+                wrapper.setState({ pagination });
+                instance.previousPage();
+
+                expect(updateDataSpy).not.toHaveBeenCalled();
+            });
+        });
+    });
+
+    describe('displayedRows', () => {
+        it('should equal row length when server pagination is used', () => {
+            jest.spyOn(tableActions, 'calculateRows').mockReturnValue([]);
+            props = {
+                ...props,
+                rows: [
+                    { firstName: 'Paul', lastName: 'Darragh', isOpen: true }
+                ],
+                pagination: {
+                    isServerPagination: true,
+                },
+            }
+            wrapper = mount(<Table { ...props } />);
+            instance = wrapper.instance();
+
+            expect(wrapper.state().rows.length).toBe(props.rows.length);
+        });
+
+        it('should equal calculateRows result when sever pagination is not used', () => {
+            const rows = [
+                { firstName: 'Paul', lastName: 'Darragh', isOpen: true },
+                { firstName: 'Dave', lastName: 'Smith', isOpen: true },
+            ];
+            jest.spyOn(tableActions, 'calculateRows').mockReturnValue(rows);
+            props = {
+                ...props,
+                rows,
+                pagination: {
+                    isServerPagination: false,
+                },
+            }
+            wrapper = mount(<Table { ...props } />);
+            instance = wrapper.instance();
+
+            expect(wrapper.state().rows.length).toBe(rows.length);
+        });
+    });
+
+    describe('when server side sorting is used', () => {
+        let updateDataSpy, pagination = {}, sort = {};
+
+        beforeEach(() => {
+            updateDataSpy = jest.fn();
+            props = {
+                ...props,
+                updateData: updateDataSpy
+            };
+            wrapper = mount(<Table {...props} />)
+            instance = wrapper.instance();
+        });
+
+        describe('sortRows()', () => {
+            it('should call updateData with the current sort column but the direction reversed', () => {
+                pagination = {
+                    currentPage: 1,
+                    totalPages: 2,
+                }
+                sort = {
+                    column: 'firstName',
+                    direction: 'ascending'
+                }
+                wrapper.setState({ pagination, sort });
+                instance.sortRows({ column: 'firstName' });
+
+                expect(updateDataSpy).toHaveBeenCalledTimes(1);
+                expect(updateDataSpy).toHaveBeenCalledWith({page: pagination.currentPage, sort: {...sort, direction: 'descending'}});
+            });
+
+            it('should call updateData with new sort column and the default ascending direction', () => {
+                pagination = {
+                    currentPage: 1,
+                    totalPages: 2,
+                }
+                sort = {
+                    column: 'firstName',
+                    direction: 'ascending'
+                }
+                wrapper.setState({ pagination, sort });
+                instance.sortRows({ column: 'lastName' });
+
+                expect(updateDataSpy).toHaveBeenCalledTimes(1);
+                expect(updateDataSpy).toHaveBeenCalledWith({page: pagination.currentPage, sort: {column: 'lastName', direction: 'ascending'}});
+            });
+        });
+    });
 });
