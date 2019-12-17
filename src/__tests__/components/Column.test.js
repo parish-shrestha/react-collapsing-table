@@ -99,4 +99,27 @@ describe('Column', () => {
 
         expect(props.onClick.mock.calls).toEqual([]);
     });
+
+    it('should fire an action when the th is focussed and "Enter" key is pressed', () => {
+        wrapper.find('th').first().simulate('keyDown', { key: "Enter" });
+
+        expect(props.onClick).toHaveBeenCalled();
+    });
+
+    it('should not fire an action when the th is focussed and any other key is pressed', () => {
+        wrapper.find('th').first().simulate('keyDown', { key: "ArrowDown" });
+
+        expect(props.onClick.mock.calls).toEqual([]);
+    });
+
+    it('should not fire an action when the th is focussed and "Enter" key is pressed but sortable is false', () => {
+        props = {
+            ...props,
+            sortable: false,
+        };
+        wrapper = shallow(<Column { ...props } />);
+        wrapper.find('th').first().simulate('keyDown', { key: "Enter" });
+
+        expect(props.onClick.mock.calls).toEqual([]);
+    });
 });
