@@ -31,7 +31,7 @@ const Rows = ({ rows, visibleColumns, hiddenColumns, expandRow, callbacks, icons
         return (
             <tbody>
                 <tr className="no-results">
-                    <td>Sorry, your search did not return any results. Please try again.</td>
+                    <td colSpan={visibleColumns.length}>Sorry, your search did not return any results. Please try again.</td>
                 </tr>
             </tbody>
         );
